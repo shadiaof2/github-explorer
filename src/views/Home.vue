@@ -43,19 +43,12 @@
       </div>
 
       <!-- 错误提示 -->
-      <div v-if="error" class="error-message">
-        ⚠️ {{ error }}
-      </div>
+      <div v-if="error" class="error-message">⚠️ {{ error }}</div>
 
       <!-- 用户列表 -->
       <div class="users-grid">
-        <UserCard
-          v-for="user in users"
-          :key="user.id"
-          :user="user"
-          @click="goToDetail"
-        />
-        
+        <UserCard v-for="user in users" :key="user.id" :user="user" @click="goToDetail" />
+
         <!-- 骨架屏 -->
         <template v-if="loading && users.length === 0">
           <SkeletonCard v-for="i in 6" :key="i" />
@@ -68,9 +61,7 @@
       </div>
 
       <!-- 没有更多数据 -->
-      <div v-if="!hasMore && users.length > 0" class="no-more">
-        没有更多用户了
-      </div>
+      <div v-if="!hasMore && users.length > 0" class="no-more">没有更多用户了</div>
 
       <!-- 空状态 -->
       <div v-if="!loading && users.length === 0 && searchPerformed" class="empty-state">
@@ -79,7 +70,7 @@
       </div>
 
       <!-- 底部哨兵元素 - 用于触发无限滚动 -->
-      <div ref="sentinel" style="height: 20px;"></div>
+      <div ref="sentinel" style="height: 20px"></div>
     </div>
   </div>
 </template>
@@ -124,26 +115,26 @@ const toggleTheme = () => {
 // 加载用户数据 - 每页加载50个用户以确保有滚动条
 const loadUsers = async (reset: boolean = false) => {
   if (!searchKeyword.value.trim()) return
-  
+
   if (reset) {
     currentPage.value = 1
     hasMoreData.value = true
     users.value = []
   }
-  
+
   if (!hasMoreData.value) return
-  
+
   isLoadingMore.value = true
   const result = await search(searchKeyword.value, currentPage.value, 50)
   isLoadingMore.value = false
-  
+
   if (result) {
     if (reset) {
       users.value = result.items
     } else {
       users.value = [...users.value, ...result.items]
     }
-    
+
     hasMoreData.value = users.value.length < result.total_count && result.items.length > 0
     currentPage.value++
   } else {
@@ -154,7 +145,7 @@ const loadUsers = async (reset: boolean = false) => {
 // 搜索
 const handleSearch = async () => {
   if (!searchKeyword.value.trim()) return
-  
+
   searchPerformed.value = true
   addHistory(searchKeyword.value)
   await loadUsers(true)
@@ -185,16 +176,20 @@ const initTheme = () => {
 // 设置 Intersection Observer - 实现无限滚动
 const setupObserver = () => {
   if (observer) observer.disconnect()
-  
-  observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      if (!loading.value && hasMore.value && searchPerformed.value) {
-        console.log('📥 触发无限滚动，自动加载更多')
-        loadUsers(false)
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      const firstEntry = entries[0]
+      if (firstEntry?.isIntersecting) {
+        if (!loading.value && hasMore.value && searchPerformed.value) {
+          console.log('📥 触发无限滚动，自动加载更多')
+          loadUsers(false)
+        }
       }
-    }
-  }, { threshold: 0.1, rootMargin: '100px' })
-  
+    },
+    { threshold: 0.1, rootMargin: '100px' },
+  )
+
   if (sentinel.value) {
     observer.observe(sentinel.value)
     console.log('✅ 无限滚动监听已启动')
@@ -393,15 +388,15 @@ onUnmounted(() => {
   .container {
     padding: 0 1rem;
   }
-  
+
   .users-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .search-section {
     flex-direction: column;
   }
-  
+
   .search-btn {
     padding: 0.75rem;
   }

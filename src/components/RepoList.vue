@@ -1,9 +1,7 @@
 <template>
   <div class="repo-list">
     <h3 class="section-title">📚 最近仓库</h3>
-    <div v-if="repos.length === 0" class="empty-repos">
-      暂无仓库
-    </div>
+    <div v-if="repos.length === 0" class="empty-repos">暂无仓库</div>
     <div v-for="repo in repos" :key="repo.id" class="repo-item">
       <a :href="repo.html_url" target="_blank" rel="noopener noreferrer" class="repo-name">
         {{ repo.name }}

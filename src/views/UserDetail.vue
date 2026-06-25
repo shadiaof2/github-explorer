@@ -2,9 +2,7 @@
   <div class="user-detail">
     <div class="container">
       <!-- 返回按钮 -->
-      <button class="back-btn" @click="goBack">
-        ← 返回
-      </button>
+      <button class="back-btn" @click="goBack">← 返回</button>
 
       <!-- 加载状态 -->
       <div v-if="loading" class="loading-state">
@@ -26,16 +24,10 @@
             <h1 class="user-name">{{ user.name || user.login }}</h1>
             <p class="user-login">@{{ user.login }}</p>
             <div class="user-actions">
-              <button 
-                class="favorite-btn"
-                :class="{ active: isFavorited }"
-                @click="toggleFavorite"
-              >
+              <button class="favorite-btn" :class="{ active: isFavorited }" @click="toggleFavorite">
                 {{ isFavorited ? '⭐ 已收藏' : '☆ 收藏用户' }}
               </button>
-              <a :href="user.html_url" target="_blank" class="github-link">
-                查看 GitHub →
-              </a>
+              <a :href="user.html_url" target="_blank" class="github-link"> 查看 GitHub → </a>
             </div>
           </div>
         </div>
@@ -128,7 +120,7 @@ const toggleFavorite = async () => {
     await favoritesStore.toggleFavorite({
       login: user.value.login,
       avatar_url: user.value.avatar_url,
-      name: user.value.name || undefined
+      name: user.value.name || undefined,
     })
   }
 }
@@ -169,7 +161,8 @@ onMounted(() => {
   background: var(--bg-tertiary);
 }
 
-.loading-state, .error-state {
+.loading-state,
+.error-state {
   text-align: center;
   padding: 4rem;
 }
@@ -324,31 +317,31 @@ onMounted(() => {
   .container {
     padding: 1rem;
   }
-  
+
   .user-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  
+
   .user-name {
     font-size: 1.4rem;
   }
-  
+
   .user-avatar {
     width: 100px;
     height: 100px;
   }
-  
+
   .user-actions {
     justify-content: center;
   }
-  
+
   .user-stats {
     justify-content: space-around;
     gap: 0.5rem;
   }
-  
+
   .stat-value {
     font-size: 1.2rem;
   }

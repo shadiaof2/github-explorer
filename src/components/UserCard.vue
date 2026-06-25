@@ -7,7 +7,7 @@
       <h3 class="username">{{ user.login }}</h3>
       <p class="repos-count">📁 {{ user.public_repos }} 个仓库</p>
     </div>
-    <button 
+    <button
       class="favorite-btn"
       :class="{ active: isFavorited }"
       @click.stop="handleFavorite"
@@ -39,7 +39,7 @@ const isFavorited = computed(() => favoritesStore.isFavorite(props.user.login))
 const handleFavorite = async () => {
   const isNowFavorited = await favoritesStore.toggleFavorite({
     login: props.user.login,
-    avatar_url: props.user.avatar_url
+    avatar_url: props.user.avatar_url,
   })
   emit('favorite', props.user, isNowFavorited)
 }
@@ -116,12 +116,12 @@ const handleFavorite = async () => {
   .user-card {
     padding: 0.75rem;
   }
-  
+
   .user-avatar {
     width: 40px;
     height: 40px;
   }
-  
+
   .username {
     font-size: 0.9rem;
   }

@@ -9,7 +9,6 @@ export interface GitHubUser {
   following?: number
   score?: number
 }
-
 // 用户详细信息
 export interface UserDetail extends GitHubUser {
   name: string | null
@@ -24,7 +23,6 @@ export interface UserDetail extends GitHubUser {
   public_gists: number
   hireable: boolean | null
 }
-
 // GitHub 仓库
 export interface Repository {
   id: number
@@ -37,14 +35,12 @@ export interface Repository {
   forks_count: number
   updated_at: string
 }
-
 // 搜索响应
 export interface SearchResponse<T> {
   total_count: number
   incomplete_results: boolean
   items: T[]
 }
-
 // 搜索历史项
 export interface HistoryItem {
   keyword: string
